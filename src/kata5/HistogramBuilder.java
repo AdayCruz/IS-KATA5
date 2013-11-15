@@ -1,11 +1,18 @@
 package kata5;
 
 public class HistogramBuilder<T> {
+
+    private T[] items;
+
+    public HistogramBuilder(T[] items) {
+        this.items = items;
+    }
     
-    public Histogram<T> build(T[] items){
-        Histogram<T> histogram = new Histogram<>();
+    public <A> Histogram<A> build(AttributeExtractor<T, A> extractor){
+        Histogram<A> histogram = new Histogram<>();
         for (T item : items) {
-            histogram.put(item, histogram.get(item) + 1);
+            A attribute = extractor.extract(item);
+            histogram.put(attribute, histogram.get(attribute) + 1);
         }
         return histogram;
     }
